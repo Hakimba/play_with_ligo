@@ -28,9 +28,9 @@ let buy_taco (taco_kind_index, taco_shop_storage : nat * taco_shop_storage) : re
           (Some {taco_kind with stock = abs (taco_kind.stock - 1n) })
           taco_shop_storage
         in
-        let receiverContract : unit contract = match Tezos.get_contract_opt ownerAddr with
-          | Some (contract) -> contract
-          | None -> failwith ("This address doesn't lead to a contract" : unit contract)
+        let receiverContract : unit contract = match (Tezos.get_contract_opt ownerAddr : unit contract option) with
+          | Some (ctr) -> ctr
+          | None -> (failwith "This address doesn't lead to a contract" : unit contract)
         in
         let ops = [Tezos.transaction unit Tezos.amount receiverContract] in
         (ops, updated_stock)
