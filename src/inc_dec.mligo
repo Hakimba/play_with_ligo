@@ -8,7 +8,7 @@ type parameter =
 type return = operation list * storage
 
 let incr (store, delta : storage * int) : storage = store + delta
-let decr (store, delta : storage * int) : storage = store - delta
+[@no_mutation] let decr (store, delta : storage * int) : storage = store - delta
 
 let main (action, store : parameter * storage) : return =
     ([] : operation list),

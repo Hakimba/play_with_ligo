@@ -1,6 +1,8 @@
 ligo := docker run --rm -v "${PWD}":"${PWD}" -w "${PWD}" ligolang/ligo:0.41.0
-interpret := $(ligo) run interpret
+dry-run := $(ligo) run dry-run
 test := $(ligo) run test
+
+all: all_interpret all_tests
 
 #les tests d'interpretation d'une seule operation
 all_interpret : inc_dec_inter balance_under_inter
@@ -9,9 +11,9 @@ all_interpret : inc_dec_inter balance_under_inter
 
 inc_dec_inter:
 	@echo "inc_dec : tests interpreted :\n"
-	@$(interpret) "main (Increment(30) , 10)" --init-file src/inc_dec.mligo
-	@$(interpret) "main (Decrement(30) , 10)" --init-file src/inc_dec.mligo
-	@$(interpret) "main (Reset , 10)" --init-file src/inc_dec.mligo
+	@$(dry-run) src/inc_dec.mligo "Increment(30)" 10  --entry-point main
+	@$(dry-run) src/inc_dec.mligo "Decrement(30)" 10 --entry-point main
+	@$(dry-run) src/inc_dec.mligo "Reset" 10 --entry-point main
 
 balance_under_inter:
 	@echo "balance_under : tests are not implemented yet"
